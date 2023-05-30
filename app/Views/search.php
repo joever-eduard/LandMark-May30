@@ -10,7 +10,7 @@
         <div class="navbar">
         <img src="/assets/images/icon2.png" class="logo">
             <ul>
-                <li><a href="/homepage">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
                 <li><a href="#">Virtual Map</a></li>
                 <li><a href="/search">Search Land</a></li>
@@ -21,17 +21,28 @@
     </Header>
 
     <div class="document-page">
-        <div class='container'>
+        <div class="container">
         <h1>Search Land Details</h1>
         </div>
 
         <div class="search-container">
-            <form action="/searchinfo" method="get">
+            <form id="search-form" action="/usersearch" method="get">
                 <h2>Search by Lot number :</h2>
-                <input type="search" placeholder="Lot No." class="search-bar" name="lot_no">
+                <input type="search" name="lot_no" placeholder="Lot No." class="search-bar">
                 <input type="submit" class="search-button" value="Submit">
             </form>
         </div>
+
+        <?php if (session()->has('errors')) : ?>
+            <div class="alert alert-danger">
+                <ul>
+                    <?php foreach (session('errors') as $error) : ?>
+                        <li><?= esc($error) ?></li>
+                    <?php endforeach ?>
+                </ul>
+            </div>
+        <?php endif ?>
+
 
         <div class="table-container">
             <table>
@@ -47,20 +58,13 @@
 
                     <?php foreach ($lots as $lot) { ?>
                         <tr>
-
-                        <td>
-                            <a href="/searchinfo?lot_no=<?= esc($lot['lot_no']) ?>">
-                                <?= isset($lot['lot_no']) ? esc($lot['lot_no']) : '' ?>
-                            </a>
-                        </td>
-                        
                         <td><?= isset($lot['lot_no']) ? esc($lot['lot_no']) : '' ?></td>
                         <td><?= isset($lot['cad_no']) ? esc($lot['cad_no']) : '' ?></td>
                         <td><?= isset($lot['size_of_area']) ? esc($lot['size_of_area']) : '' ?></td>
                         <td><?= isset($lot['location']) ? esc($lot['location']) : '' ?></td>
-                        </tr>
-
                     <?php } ?>
+
+
                 </tbody>
             </table>
         </div>

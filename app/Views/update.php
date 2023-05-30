@@ -59,31 +59,46 @@
                     <label for="status">Status:</label>
                     <input type="text" id="status" name="status" value="<?= set_value('status', isset($lot['status']) ? $lot['status'] : '') ?>">
                 </div>
-                <div class="form-group">
-                    <label for="bllm">BLLM:</label>
-                    <input type="text" id="bllm" name="bllm" value="<?= set_value('bllm', isset($propertyDistance['bllm']) ? $propertyDistance['bllm'] : '') ?>">
+                <!-- Update the form inputs for distances -->
+                <?php foreach ($propertyDistance as $index => $distance): ?>
+                    <input type="hidden" name="propertyDistances[<?= $index ?>][id]" value="<?= $distance['id'] ?>">
+                    <div class="form-group">
+                        <label for="bllm<?= $index ?>">BLLM:</label>
+                        <input type="text" id="bllm<?= $index ?>" name="propertyDistances[<?= $index ?>][bllm]" value="<?= set_value('propertyDistances['.$index.'][bllm]', $distance['bllm']) ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="distance_to_point1<?= $index ?>">Distance to Point 1:</label>
+                        <input type="text" id="distance_to_point1<?= $index ?>" name="propertyDistances[<?= $index ?>][distance_to_point1]" value="<?= set_value('propertyDistances['.$index.'][distance_to_point1]', $distance['distance_to_point1']) ?>">
+                    </div>
+                <?php endforeach; ?>
+
+                <!-- Update the form inputs for valuations -->
+                <?php foreach ($propertyValuation as $index => $valuation): ?>
+                    <input type="hidden" name="propertyValuations[<?= $index ?>][id]" value="<?= $valuation['id'] ?>">
+                    <div class="form-group">
+                        <label for="valuation_amount<?= $index ?>">Lot Valuation Amount:</label>
+                        <input type="text" id="valuation_amount<?= $index ?>" name="propertyValuations[<?= $index ?>][valuation_amount]" value="<?= set_value('propertyValuations['.$index.'][valuation_amount]', $valuation['valuation_amount']) ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="tree_valuation_amount<?= $index ?>">Tree Valuation Amount:</label>
+                        <input type="text" id="tree_valuation_amount<?= $index ?>" name="propertyValuations[<?= $index ?>][tree_valuation_amount]" value="<?= set_value('propertyValuations['.$index.'][tree_valuation_amount]', $valuation['tree_valuation_amount']) ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="disturbance_amount<?= $index ?>">Disturbance Amount:</label>
+                        <input type="text" id="disturbance_amount<?= $index ?>" name="propertyValuations[<?= $index ?>][disturbance_amount]" value="<?= set_value('propertyValuations['.$index.'][disturbance_amount]', $valuation['disturbance_amount']) ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="house_structure_amount<?= $index ?>">House Structure Amount:</label>
+                        <input type="text" id="house_structure_amount<?= $index ?>" name="propertyValuations[<?= $index ?>][house_structure_amount]" value="<?= set_value('propertyValuations['.$index.'][house_structure_amount]', $valuation['house_structure_amount']) ?>">
+                    </div>
+                <?php endforeach; ?>
+
+
+                <div class="submit-container">
+                    <button type="submit">Submit</button>
                 </div>
-                <div class="form-group">
-                    <label for="distance_to_point1">Distance to Point 1:</label>
-                    <input type="text" id="distance_to_point1" name="distance_to_point1" value="<?= set_value('distance_to_point1', isset($propertyDistance['distance_to_point1']) ? $propertyDistance['distance_to_point1'] : '') ?>">
-                </div>
-                <div class="form-group">
-                    <label for="valuation_amount">Lot Valuation Amount:</label>
-                    <input type="text" id="valuation_amount" name="valuation_amount" value="<?= set_value('valuation_amount', isset($propertyValuation['valuation_amount']) ? $propertyValuation['valuation_amount'] : '') ?>">
-                </div>
-                <div class="form-group">
-                    <label for="tree_valuation_amount">Tree Valuation Amount:</label>
-                    <input type="text" id="tree_valuation_amount" name="tree_valuation_amount" value="<?= set_value('tree_valuation_amount', isset($propertyValuation['tree_valuation_amount']) ? $propertyValuation['tree_valuation_amount'] : '') ?>">
-                </div>
-                <div class="form-group">
-                    <label for="disturbance_amount">Disturbance Amount:</label>
-                    <input type="text" id="disturbance_amount" name="disturbance_amount" value="<?= set_value('disturbance_amount', isset($propertyValuation['disturbance_amount']) ? $propertyValuation['disturbance_amount'] : '') ?>">
-                </div>
-                <div class="form-group">
-                    <label for="house_structure_amount">House Structure Amount:</label>
-                    <input type="text" id="house_structure_amount" name="house_structure_amount" value="<?= set_value('house_structure_amount', isset($propertyValuation['house_structure_amount']) ? $propertyValuation['house_structure_amount'] : '') ?>">
-                </div>
-                <button type="submit">Update</button>
+
+
             </form>
 
         </div>

@@ -41,6 +41,7 @@ $routes->get('/adminhome', 'PagesController::adminHome');
 $routes->get('adminabout', 'PagesController::adminAbout');
 $routes->get('adminsearch', 'PagesController::adminSearch');
 $routes->get('searchinfo', 'PagesController::searchinfo');
+$routes->get('usersearch', 'PagesController::usersearch');
 $routes->get('documents', 'PagesController::documents');
 $routes->get('reports', 'PagesController::reports');
 $routes->match(['get', 'post'], 'land/add', 'PagesController::add');

@@ -43,39 +43,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- <tr>
-                        <td>001</td>
-                        <td>001-A-001</td>
-                        <td>120 sqm</td>
-                        <td>Quezon City</td>
-                        <td><input type="file" name="file"></td>
-                        <td>
-                            <a href="#" class="view-link">View</a>
-                            <a href="/update" class="edit-link">Edit</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>002</td>
-                        <td>001-A-002</td>
-                        <td>150 sqm</td>
-                        <td>Makati City</td>
-                        <td><input type="file" name="file"></td>
-                        <td>
-                            <a href="#" class="view-link">View</a>
-                            <a href="/update" class="edit-link">Edit</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>003</td>
-                        <td>001-A-003</td>
-                        <td>200 sqm</td>
-                        <td>Taguig City</td>
-                        <td><input type="file" name="file"></td>
-                        <td>
-                            <a href="#" class="view-link">View</a>
-                            <a href="/update" class="edit-link">Edit</a>
-                        </td>
-                    </tr> -->
                     
                     <?php foreach ($lots as $lot) { ?>
                         <tr>

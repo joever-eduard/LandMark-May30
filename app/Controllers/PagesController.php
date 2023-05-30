@@ -67,7 +67,23 @@ class PagesController extends BaseController
 
         $lotNo = $this->request->getVar('lot_no');
 
+        // Validate the lot number
+        $validation = $this->validate([
+            'lot_no' => 'required|numeric|is_not_unique[lot_details.lot_no]',
+        ]);
+
+        if (!$validation) {
+            // If validation fails, redirect back with errors
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        // Lot number is valid, proceed with fetching data
         $lot = $lotModel->where('lot_no', $lotNo)->first();
+
+        if (!$lot) {
+            // Lot number not found, show error message
+            return redirect()->back()->withInput()->with('error', 'Lot number not found.');
+        }
 
         // Fetch multiple property distances
         $propertyDistances = $propertyDistanceModel->where('lot_id', $lot['id'])->findAll();
@@ -83,6 +99,50 @@ class PagesController extends BaseController
 
         return view('searchinfo', $data);
     }
+
+    public function usersearch()
+    {
+        $lotModel = new LotModel();
+        $propertyDistanceModel = new PropertyDistanceModel();
+        $propertyValuationModel = new PropertyValuationModel();
+
+        $lotNo = $this->request->getVar('lot_no');
+
+        // Validate the lot number
+        $validation = $this->validate([
+            'lot_no' => 'required|numeric|is_not_unique[lot_details.lot_no]',
+        ]);
+
+        if (!$validation) {
+            // If validation fails, redirect back with errors
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        // Lot number is valid, proceed with fetching data
+        $lot = $lotModel->where('lot_no', $lotNo)->first();
+
+        if (!$lot) {
+            // Lot number not found, show error message
+            return redirect()->back()->withInput()->with('error', 'Lot number not found.');
+        }
+
+        // Fetch multiple property distances
+        $propertyDistances = $propertyDistanceModel->where('lot_id', $lot['id'])->findAll();
+
+        // Fetch multiple property valuations
+        $propertyValuations = $propertyValuationModel->where('lot_id', $lot['id'])->findAll();
+
+        $data = [
+            'lot' => $lot,
+            'propertyDistances' => $propertyDistances, // Pass the property distances array to the view
+            'propertyValuations' => $propertyValuations, // Pass the property valuations array to the view
+        ];
+
+        return view('usersearch', $data);
+    }
+
+    
+
 
 
 
@@ -179,10 +239,8 @@ class PagesController extends BaseController
 
 
     
-
     public function update($lotId)
     {
-
         $data = [];
         helper(['form']);
 
@@ -193,8 +251,9 @@ class PagesController extends BaseController
 
         // Get the data of the lot to be updated
         $lot = $lotModel->find($lotId);
-        $propertyDistance = $propertyDistanceModel->where('lot_id',$lotId)->first();
-        $propertyValuation = $propertyValuationModel->where('lot_id',$lotId)->first();
+        $propertyDistance = $propertyDistanceModel->where('lot_id', $lotId)->findAll();
+        $propertyValuation = $propertyValuationModel->where('lot_id', $lotId)->findAll();
+
         // Populate the form with the data
         $data['lotId'] = $lotId;
         $data['lot'] = $lot;
@@ -217,19 +276,17 @@ class PagesController extends BaseController
                 // Update lot details
                 $lotModel->update($lotId, $updatedData);
 
-                // Update property distance
-                $propertyDistanceModel->where('lot_id', $lotId)->set([
-                    'bllm' => $this->request->getVar('bllm'),
-                    'distance_to_point1' => $this->request->getVar('distance_to_point1'),
-                ])->update();
+                // Update property distances
+                $distances = $this->request->getVar('propertyDistances');
+                foreach ($distances as $index => $distance) {
+                    $propertyDistanceModel->update($distance['id'], $distance);
+                }
 
-                // Update property valuation
-                $propertyValuationModel->where('lot_id', $lotId)->set([
-                    'valuation_amount' => $this->request->getVar('valuation_amount'),
-                    'tree_valuation_amount' => $this->request->getVar('tree_valuation_amount'),
-                    'disturbance_amount' => $this->request->getVar('disturbance_amount'),
-                    'house_structure_amount' => $this->request->getVar('house_structure_amount'),
-                ])->update();
+                // Update property valuations
+                $valuations = $this->request->getVar('propertyValuations');
+                foreach ($valuations as $index => $valuation) {
+                    $propertyValuationModel->update($valuation['id'], $valuation);
+                }
 
                 // Redirect to success page
                 return redirect()->to('/documents/');
@@ -242,8 +299,10 @@ class PagesController extends BaseController
         }
 
         echo view('update', $data);
-
     }
+
+
+    
     
     
     
