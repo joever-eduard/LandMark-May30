@@ -142,17 +142,11 @@ class PagesController extends BaseController
     }
 
     
-
-
-
-
-    
-
-
     public function documents()
     {
         $lotModel = new LotModel();
         $lots = $lotModel->findAll();
+        
 
         // Retrieve the data you want to pass to the view
         $data = [
@@ -161,6 +155,36 @@ class PagesController extends BaseController
 
         return view('documents', $data);
     }
+
+    public function viewlot($lotId)
+    {
+        $lotModel = new LotModel();
+        $propertyDistanceModel = new PropertyDistanceModel();
+        $propertyValuationModel = new PropertyValuationModel();
+    
+        // Fetch the lot information
+        $lot = $lotModel->find($lotId);
+    
+        if (!$lot) {
+            // Lot not found, redirect back with an error message
+            return redirect()->back()->withInput()->with('error', 'Lot not found.');
+        }
+    
+        // Fetch property distances
+        $propertyDistances = $propertyDistanceModel->where('lot_id', $lotId)->findAll();
+    
+        // Fetch property valuations
+        $propertyValuations = $propertyValuationModel->where('lot_id', $lotId)->findAll();
+    
+        $data = [
+            'lot' => $lot,
+            'propertyDistances' => $propertyDistances,
+            'propertyValuations' => $propertyValuations,
+        ];
+    
+        return view('viewlot', $data);
+    }
+
 
 
     public function reports()

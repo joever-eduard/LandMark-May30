@@ -43,6 +43,7 @@ $routes->get('adminsearch', 'PagesController::adminSearch');
 $routes->get('searchinfo', 'PagesController::searchinfo');
 $routes->get('usersearch', 'PagesController::usersearch');
 $routes->get('documents', 'PagesController::documents');
+$routes->get('documents/view/(:num)', 'PagesController::viewlot/$1'); // Update the route here
 $routes->get('reports', 'PagesController::reports');
 $routes->match(['get', 'post'], 'land/add', 'PagesController::add');
 $routes->match(['get', 'post'], 'land/update/(:num)', 'PagesController::update/$1');

@@ -52,7 +52,7 @@
                         <td><?= isset($lot['location']) ? esc($lot['location']) : '' ?></td>
                         <td><input type="file" name="file"></td>
                         <td>
-                            <a href="#" class="view-link">View</a>
+                            <a href="/documents/view/<?= isset($lot['id']) ? esc($lot['id']) : '' ?>" class="view-link">View</a>
                             <a href="/land/update/<?= isset($lot['id']) ? esc($lot['id']) : '' ?>" class="edit-link">Edit</a>
                         </td>
                         </tr>
